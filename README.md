@@ -16,7 +16,6 @@ services:
       - NET_ADMIN
     devices:
       - /dev/net/tun
-    dns: 10.64.0.1
     environment:
       # Whitespace-delimited list of IP addresses.
       WG_ADDR: "1.2.3.4/32 dead::beef/128"
