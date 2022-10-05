@@ -3,7 +3,7 @@
 [![Docker Status](https://img.shields.io/github/workflow/status/maxmouchet/wg-tunnel-docker/Docker?logo=github&label=docker)](https://github.com/maxmouchet/wg-tunnel-docker/actions/workflows/docker.yml)
 
 A Docker container to route other containers traffic to a WireGuard tunnel.
-It uses the [wireguard-go](https://github.com/WireGuard/wireguard-go) userspace implementation so that it can easily be run on Synology DSM or other platforms where kernel modules are not available.
+It uses the [wireguard-go](https://github.com/WireGuard/wireguard-go) userspace implementation so that it can easily be run on Synology DSM or other platforms where kernel modules are not readily available.
 
 ## Example
 
