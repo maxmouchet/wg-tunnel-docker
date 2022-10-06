@@ -17,9 +17,9 @@ It uses the [wireguard-go](https://github.com/WireGuard/wireguard-go) userspace 
 Name                  | Default            | Description
 ----------------------|--------------------|-------------
 `EXCLUDED_NETWORK_V4` | `172.16.0.0/12`    | Whitespace-delimited list of networks allowed outside of the VPN.
-`EXCLUDED_NETWORK_V6` | (optional)         | Whitespace-delimited list of networks to allow outside of the VPN.
+`EXCLUDED_NETWORK_V6` | (optional)         | -
 `IPTABLES`            | `iptables-legacy`  | iptables command to use; iptables-legacy is useful for Synology DSM.
-`IP6TABLES`           | `ip6tables-legacy` | ip6tables command to use; ip6tables-legacy is useful for Synology DSM.
+`IP6TABLES`           | `ip6tables-legacy` | -
 `WG_ADDR`             | (required)         | Whitespace-delimited list of addresses to assign to the WireGuard interface.
 `WG_FWMARK`           | `1234 `            | Firewall mark for WireGuard packets.
 `WG_PEER_ALLOWED_IPS` | `0.0.0.0/0,::/0`   | Comma-delimited list of networks allowed inside of the VPN.
