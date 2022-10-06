@@ -1,36 +1,38 @@
 #!/bin/bash
 set -euo pipefail
 
-: "${EXCLUDED_NETWORK:=172.16.0.0/12}"
+: "${EXCLUDED_NETWORK_V4:=172.16.0.0/12}"
+: "${EXCLUDED_NETWORK_V6:=}"
+: "${IPTABLES:=iptables-legacy}"
+: "${IP6TABLES:=ip6tables-legacy}"
 : "${WG_FWMARK:=1234}"
 : "${WG_INTERFACE:=wg0}"
 : "${WG_PEER_ALLOWED_IPS:=0.0.0.0/0,::0/0}"
 : "${WG_TABLE:=2468}"
 
 # Block non-local and non-wireguard as early as possible to prevent leaks.
-# We use iptables-legacy for compatibility with Synology DSM.
-alias iptables=iptables-legacy
-alias ip6tables=ip6tables-legacy
-
 # Drop everything by default.
-iptables  --policy OUTPUT DROP
-ip6tables --policy OUTPUT DROP
+${IPTABLES}  --policy OUTPUT DROP
+${IP6TABLES} --policy OUTPUT DROP
 
 # Allow traffic going towards an IP address assigned to this host (e.g. 127.0.0.1, ::1).
-iptables  --append OUTPUT --match addrtype --dst-type LOCAL --jump ACCEPT
-ip6tables --append OUTPUT --match addrtype --dst-type LOCAL --jump ACCEPT
+${IPTABLES}  --append OUTPUT --match addrtype --dst-type LOCAL --jump ACCEPT
+${IP6TABLES} --append OUTPUT --match addrtype --dst-type LOCAL --jump ACCEPT
 
 # Allow encrypted WireGuard traffic.
-iptables  --append OUTPUT --match mark --mark "${WG_FWMARK}" --jump ACCEPT
-ip6tables --append OUTPUT --match mark --mark "${WG_FWMARK}" --jump ACCEPT
+${IPTABLES}  --append OUTPUT --match mark --mark "${WG_FWMARK}" --jump ACCEPT
+${IP6TABLES} --append OUTPUT --match mark --mark "${WG_FWMARK}" --jump ACCEPT
 
 # Allow traffic going through the WireGuard interface.
-iptables  --append OUTPUT --out-interface "${WG_INTERFACE}" --jump ACCEPT
-ip6tables --append OUTPUT --out-interface "${WG_INTERFACE}" --jump ACCEPT
+${IPTABLES}  --append OUTPUT --out-interface "${WG_INTERFACE}" --jump ACCEPT
+${IP6TABLES} --append OUTPUT --out-interface "${WG_INTERFACE}" --jump ACCEPT
 
 # Allow traffic towards Docker internal networks, or any custom networks.
-for network in ${EXCLUDED_NETWORK}; do
-    iptables  --append OUTPUT --dst "${network}" --jump ACCEPT
+for network in ${EXCLUDED_NETWORK_V4}; do
+    ${IPTABLES} --append OUTPUT --dst "${network}" --jump ACCEPT
+done
+for network in ${EXCLUDED_NETWORK_V6}; do
+    ${IP6TABLES} --append OUTPUT --dst "${network}" --jump ACCEPT
 done
 
 wireguard "${WG_INTERFACE}"
