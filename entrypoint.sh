@@ -49,8 +49,10 @@ ip link set "${WG_INTERFACE}" up
 
 # Route all non-local traffic through WireGuard, except for WireGuard itself.
 # https://www.wireguard.com/netns/
-ip route add default dev "${WG_INTERFACE}" table "${WG_TABLE}"
-ip rule add not fwmark "${WG_FWMARK}" table "${WG_TABLE}"
-ip rule add table main suppress_prefixlength 0
+for af in 4 6; do
+    ip "-${af}" route add default dev "${WG_INTERFACE}" table "${WG_TABLE}"
+    ip "-${af}" rule add not fwmark "${WG_FWMARK}" table "${WG_TABLE}"
+    ip "-${af}" rule add table main suppress_prefixlength 0
+done
 
 tail --pid="$(pgrep wireguard)" -f /dev/null
