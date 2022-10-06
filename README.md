@@ -5,6 +5,13 @@
 A Docker container to route other containers traffic to a WireGuard tunnel.
 It uses the [wireguard-go](https://github.com/WireGuard/wireguard-go) userspace implementation so that it can easily be run on Synology DSM or other platforms where kernel modules are not readily available.
 
+## Features
+
+- Compatible with Synology DSM without installing WireGuard kernel modules.
+- Image available for `linux/amd64`, `linux/arm64`, `linux/arm/v7`, `linux/ppc64le`, `linux/riscv64` and `linux/s390x`.
+- Image is updated weekly.
+- _Kill-switch_ to prevent traffic leaks.
+
 ## Environment
 
 Name                  | Default            | Description
@@ -13,8 +20,8 @@ Name                  | Default            | Description
 `EXCLUDED_NETWORK_V6` | (optional)         | Whitespace-delimited list of networks to allow outside of the VPN.
 `IPTABLES`            | `iptables-legacy`  | iptables command to use; iptables-legacy is useful for Synology DSM.
 `IP6TABLES`           | `ip6tables-legacy` | ip6tables command to use; ip6tables-legacy is useful for Synology DSM.
-`WG_FWMARK`           | `1234 `            | Firewall mark for WireGuard packets.
 `WG_ADDR`             | (required)         | Whitespace-delimited list of addresses to assign to the WireGuard interface.
+`WG_FWMARK`           | `1234 `            | Firewall mark for WireGuard packets.
 `WG_PEER_ALLOWED_IPS` | `0.0.0.0/0,::/0`   | Comma-delimited list of networks allowed inside of the VPN.
 `WG_PEER_ENDPOINT`    | (required)         | Address of the WireGuard peer.
 `WG_PEER_PUBLIC_KEY`  | (required)         | Public key of the WireGuard peer.
