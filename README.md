@@ -8,7 +8,7 @@ It uses the [wireguard-go](https://github.com/WireGuard/wireguard-go) userspace 
 ## Features
 
 - Compatible with Synology DSM without installing WireGuard kernel modules.
-- Image available for `linux/amd64`, `linux/arm64`, `linux/arm/v7`, `linux/ppc64le`, `linux/riscv64` and `linux/s390x`.
+- Image available for `linux/amd64`, `linux/arm64`, `linux/arm/v7`, `linux/ppc64le` and `linux/s390x`.
 - Image is updated weekly.
 - _Kill-switch_ to prevent traffic leaks.
 
