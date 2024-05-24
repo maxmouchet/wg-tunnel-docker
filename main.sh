@@ -35,7 +35,7 @@ for network in ${EXCLUDED_NETWORK_V6}; do
     ${IP6TABLES} --append OUTPUT --dst "${network}" --jump ACCEPT
 done
 
-wireguard "${WG_INTERFACE}"
+wireguard-go "${WG_INTERFACE}"
 
 wg set "${WG_INTERFACE}" fwmark "${WG_FWMARK}"
 wg set "${WG_INTERFACE}" peer "${WG_PEER_PUBLIC_KEY}" allowed-ips "${WG_PEER_ALLOWED_IPS}" endpoint "${WG_PEER_ENDPOINT}"
@@ -55,4 +55,4 @@ for af in 4 6; do
     ip "-${af}" rule add table main suppress_prefixlength 0
 done
 
-tail --pid="$(pgrep wireguard)" -f /dev/null
+tail --pid="$(pgrep wireguard-go)" -f /dev/null
